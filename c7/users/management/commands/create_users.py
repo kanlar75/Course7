@@ -8,7 +8,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         user = User.objects.create(
             email='admin@test.com',
-            username='admin@test.com',
             first_name='Admin',
             last_name='Admin',
             is_superuser=True,
@@ -21,7 +20,6 @@ class Command(BaseCommand):
 
         user = User.objects.create(
             email='user1@test.com',
-            username='user1@test.com',
             first_name='User1',
             last_name='User1',
             is_superuser=False,
@@ -33,7 +31,6 @@ class Command(BaseCommand):
 
         user = User.objects.create(
             email='user2@test.com',
-            username='user2@test.com',
             first_name='User2',
             last_name='User2',
             is_superuser=False,
@@ -45,7 +42,6 @@ class Command(BaseCommand):
 
         user = User.objects.create(
             email='user3@test.com',
-            username='user3@test.com',
             first_name='User3',
             last_name='User3',
             is_superuser=False,
@@ -57,7 +53,6 @@ class Command(BaseCommand):
 
         user = User.objects.create(
             email='staff@test.com',
-            username='staff@test.com',
             first_name='Staff',
             last_name='Staff',
             is_superuser=False,
