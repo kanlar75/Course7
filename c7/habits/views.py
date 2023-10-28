@@ -1,5 +1,6 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, \
+    IsAuthenticatedOrReadOnly
 
 from habits.models import Habit
 from habits.paginators import HabitPaginator
@@ -27,7 +28,11 @@ class HabitListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        return Habit.objects.filter(owner=self.request.user)
+        user = self.request.user
+        if user.is_superuser:
+            return Habit.objects.all()
+        else:
+            return Habit.objects.filter(owner=user)
 
 
 class PublicHabitListAPIView(generics.ListAPIView):
@@ -44,7 +49,14 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Habit.objects.all()
+        else:
+            return Habit.objects.filter(owner=user)
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
@@ -52,7 +64,14 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
 
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Habit.objects.all()
+        else:
+            return Habit.objects.filter(owner=user)
 
     def perform_update(self, serializer):
         updated_habit = serializer.save()
@@ -64,4 +83,11 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
     """Удаление привычки """
 
     queryset = Habit.objects.all()
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Habit.objects.all()
+        else:
+            return Habit.objects.filter(owner=user)

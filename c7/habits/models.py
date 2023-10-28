@@ -28,6 +28,8 @@ class Habit(models.Model):
                                                            'выполнение')
     is_public = models.BooleanField(default=False,
                                     verbose_name='публичная привычка')
+    last_reminder = models.DateTimeField(verbose_name='Последнее напоминание',
+                                         **NULLABLE)
 
     def __str__(self):
         return f'{self.action} в {self.time}'

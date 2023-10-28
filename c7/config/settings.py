@@ -115,6 +115,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -182,9 +184,9 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
-    'my_task': {
-        'task': 'check_habit',
-        'schedule': crontab(0, 0, day_of_month='1'),
+    'task-name': {
+        'task': 'habits.tasks.send_habit_message',
+        'schedule': timedelta(seconds=30),
     }
 }
-TELEGRAM_API = os.getenv('TG_BOT_TOKEN')
+TELEGRAM_TOKEN = os.getenv('TG_BOT_TOKEN')
