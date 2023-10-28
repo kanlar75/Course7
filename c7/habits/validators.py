@@ -10,14 +10,15 @@ class PeriodicityValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_value = int(dict(value).get(self.field))
-        if tmp_value == 0:
-            raise ValidationError(
-                'Периодичность привычки не может равняться нулю!')
-        if tmp_value > 7:
-            raise ValidationError('Нельзя выполнять привычку реже, чем 1 раз '
-                                  'в 7 дней')
-        return True
+        periodicity = dict(value).get(self.field)
+        if periodicity:
+            if periodicity == 0:
+                raise ValidationError(
+                    'Периодичность привычки не может равняться нулю!')
+            if int(periodicity) > 7:
+                raise ValidationError('Нельзя выполнять привычку реже,'
+                                      'чем 1 раз в 7 дней')
+            return True
 
 
 class EstimatedTimeValidator:
@@ -27,12 +28,13 @@ class EstimatedTimeValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_val = int(dict(value).get(self.field))
-        if tmp_val <= 120:
-            return True
-        else:
-            raise ValidationError('Время выполнения привычки не должно быть '
-                                  'более 120 секунд.')
+        estimated_time = (dict(value).get(self.field))
+        if estimated_time:
+            if int(estimated_time) <= 120:
+                return True
+            else:
+                raise ValidationError('Время выполнения привычки не должно '
+                                      'быть более 120 секунд.')
 
 
 class ConnectedOrRewardValidator:
@@ -60,9 +62,9 @@ class PleasantConnectedValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_value = dict(value).get(self.field)
-        if tmp_value:
-            habit = Habit.objects.get(pk=tmp_value.id)
+        connected_habit = dict(value).get(self.field)
+        if connected_habit:
+            habit = Habit.objects.get(pk=connected_habit.id)
             if not habit.is_pleasant:
                 raise ValidationError(
                     "Связанная привычка должна быть приятной")

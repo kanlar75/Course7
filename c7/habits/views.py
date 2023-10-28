@@ -16,7 +16,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         new_habit = serializer.save()
-        new_habit.owner = self.request.user
+        new_habit.user = self.request.user
         new_habit.save()
 
 
@@ -32,7 +32,7 @@ class HabitListAPIView(generics.ListAPIView):
         if user.is_superuser:
             return Habit.objects.all()
         else:
-            return Habit.objects.filter(owner=user)
+            return Habit.objects.filter(user=user)
 
 
 class PublicHabitListAPIView(generics.ListAPIView):
@@ -56,7 +56,7 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
         if user.is_superuser:
             return Habit.objects.all()
         else:
-            return Habit.objects.filter(owner=user)
+            return Habit.objects.filter(user=user)
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
@@ -71,12 +71,14 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
         if user.is_superuser:
             return Habit.objects.all()
         else:
-            return Habit.objects.filter(owner=user)
+            return Habit.objects.filter(user=user)
 
     def perform_update(self, serializer):
         updated_habit = serializer.save()
-        updated_habit.owner = self.request.user
-        updated_habit.save()
+        user = self.request.user
+        if not user.is_superuser:
+            updated_habit.user = self.request.user
+            updated_habit.save()
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
@@ -90,4 +92,4 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
         if user.is_superuser:
             return Habit.objects.all()
         else:
-            return Habit.objects.filter(owner=user)
+            return Habit.objects.filter(user=user)

@@ -23,7 +23,7 @@ class Habit(models.Model):
                                            verbose_name='периодичность')
     reward = models.CharField(max_length=150, verbose_name='награда',
                               **NULLABLE)
-    estimated_time = models.SmallIntegerField(default=2,
+    estimated_time = models.SmallIntegerField(default=120,
                                               verbose_name='время на '
                                                            'выполнение')
     is_public = models.BooleanField(default=False,
