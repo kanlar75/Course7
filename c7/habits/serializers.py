@@ -21,5 +21,6 @@ class HabitSerializer(serializers.ModelSerializer):
                       PleasantConnectedValidator(field='connected_habit'),
                       PleasantConnectedRewardValidator(field1='is_pleasant',
                                                        field2='reward',
-                                                       field3='connected_habit'),
+                                                       field3='connected_habit'
+                                                       ),
                       ]
