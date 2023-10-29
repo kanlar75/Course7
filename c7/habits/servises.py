@@ -1,5 +1,3 @@
-import datetime
-
 from django.utils import timezone
 
 from habits.models import Habit
