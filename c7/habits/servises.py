@@ -2,21 +2,22 @@ import datetime
 
 from django.utils import timezone
 
+from habits.models import Habit
 
-def send_tg_message(habit):
-    """Проверка на наличие логов, их запись и отправка сообщения
-    пользователю """
 
-    now = timezone.now()
+def get_habits():
+    """Возвращает список привычек по которым необходима отправка оповещений """
 
-    if habit.last_reminder:
-        if habit.last_reminder <= now - datetime.timedelta(
-                days=habit.periodicity):
-            habit.last_reminder = timezone.now()
-            print("Last reminder - ", habit.last_reminder)
-            habit.save()
+    habits = []
+    habits_obj = Habit.objects.all()
+    for habit in habits_obj:
+        if habit.last_reminder:
+            if habit.last_reminder <= timezone.now() - timezone.timedelta(
+                    days=7/habit.periodicity):
+                habits.append(habit)
+        else:
+            if habit.time <= timezone.localtime(timezone.now()).time():
+                habits.append(habit)
+    return habits
 
-    else:
-        if habit.time <= now.time():
-            habit.last_reminder = timezone.now()
-            habit.save()
+

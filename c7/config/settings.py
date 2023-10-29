@@ -114,7 +114,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+# DATETIME_FORMAT = "%d.%m.%Y %H:%M"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -184,7 +184,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
-        'task': 'habits.tasks.send_habit_message',
+        'task': 'send_message',
         'schedule': timedelta(seconds=30),
     }
 }

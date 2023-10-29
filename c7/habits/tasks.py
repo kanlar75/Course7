@@ -2,15 +2,21 @@ from telebot import TeleBot
 from celery import shared_task
 
 from config.settings import TELEGRAM_TOKEN
-from habits.models import Habit
+from habits.servises import get_habits
+from django.utils import timezone
+bot = TeleBot(TELEGRAM_TOKEN)
 
 
-@shared_task
-def send_habit_message(pk):
+@shared_task(name='send_message')
+def send_habit_message():
     """Задача для отправки напоминания пользователю """
 
-    habit = Habit.objects.get(pk=pk)
-    bot = TeleBot(TELEGRAM_TOKEN)
-    message = f'Нужно выполнить {habit.action} в {habit.time} в {habit.place}'
-    print(message)
-    bot.send_message(habit.owner.chat_id, message)
+    for habit in get_habits():
+        message = f' Пора {habit.action} в {habit.time} {habit.place}'
+        if habit.user.chat_id:
+            bot.send_message(habit.user.chat_id, message)
+            habit.last_reminder = timezone.now()
+            habit.save()
+        else:
+            print(f"У пользователя {habit.user} отсутствует chat_id, "
+                  "не получилось отправить")
