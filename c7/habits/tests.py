@@ -52,8 +52,8 @@ class HabitTestCase(APITestCase):
                 "next": None,
                 "previous": None,
                 "results": [
-                    {'id': 5,
-                     'user': 4,
+                    {'id': 6,
+                     'user': 5,
                      'place': 'test_place',
                      'time': '10:30:00',
                      'action': 'test_action',
@@ -96,6 +96,35 @@ class HabitTestCase(APITestCase):
         self.assertEqual(Habit.objects.all().count(), 2)
         self.assertTrue(
             Habit.objects.filter(action='test_action_create').exists())
+
+    def test_habit_bad_create(self):
+        """Тест создания привычки с плохой периодичностью """
+
+        self.client.force_authenticate(user=self.user)
+
+        data_bad = {
+            'place': 'test_place_bad_create',
+            'time': '12:30',
+            'action': 'test_action_bad_create',
+            'estimated_time': 100,
+            'periodicity': 8
+
+        }
+
+        response = self.client.post(
+            reverse('habits:habit_create'),
+            data=data_bad
+        )
+        self.habit.refresh_from_db()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
+
+        self.assertEqual(Habit.objects.all().count(), 1)
+        self.assertFalse(
+            Habit.objects.filter(action='test_action_bad_create').exists())
 
     def test_habit_update(self):
         """ Тест обновления привычки """
