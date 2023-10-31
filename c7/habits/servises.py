@@ -11,7 +11,7 @@ def get_habits():
     for habit in habits_obj:
         if habit.last_reminder:
             if habit.last_reminder <= timezone.now() - timezone.timedelta(
-                    days=7/habit.periodicity):
+                    days=7 / habit.periodicity):
                 habits.append(habit)
         else:
             if habit.time <= timezone.localtime(timezone.now()).time():

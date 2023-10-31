@@ -94,6 +94,8 @@ class HabitTestCase(APITestCase):
         )
 
         self.assertEqual(Habit.objects.all().count(), 2)
+        self.assertTrue(
+            Habit.objects.filter(action='test_action_create').exists())
 
     def test_habit_update(self):
         """ Тест обновления привычки """
