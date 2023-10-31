@@ -12,7 +12,7 @@
 
 Для миграции в базу данных используйте команду: python manage.py migrate
 
-Установите Redis (используется для celery).
+Установите Redis (используется для периодических задач celer).
 
 Команды:
 
@@ -23,8 +23,6 @@
 login: admin@test.com password: 12345
 
 Для всех пользователей (user1@test.com, user2@test.com, staff@test.com) password: 12345.
-
-Для миграции в базу данных используйте команду: python manage.py migrate
 
 Для запуска планировщика celery используйте команду: python.exe -m celery -A config beat --loglevel=info. Остановка планировщика: ctrl + break.
 Для запуска worker используйте команду: python.exe -m celery -A config worker -l INFO -P eventlet. Остановка worker: ctrl + break.
