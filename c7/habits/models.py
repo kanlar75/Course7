@@ -19,9 +19,8 @@ class Habit(models.Model):
                                         on_delete=models.SET_NULL,
                                         verbose_name='связанная привычка',
                                         **NULLABLE)
-    periodicity = models.SmallIntegerField(default=7,
-                                           verbose_name='периодичность в '
-                                                        'неделю')
+    periodicity = models.SmallIntegerField(default=1,
+                                           verbose_name='периодичность')
     reward = models.CharField(max_length=150, verbose_name='награда',
                               **NULLABLE)
     estimated_time = models.SmallIntegerField(default=120,
