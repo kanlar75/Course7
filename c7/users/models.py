@@ -20,7 +20,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/', **NULLABLE,
                                verbose_name='Аватар')
     comment = models.TextField(**NULLABLE, verbose_name='Комментарий')
-    chat_id = models.CharField(**NULLABLE,
+    chat_id = models.CharField(max_length=20, unique=True, **NULLABLE,
                                verbose_name='id_chat в Telegram')
     role = models.CharField(max_length=20, **NULLABLE,
                             choices=UserRoles.choices, default='owner')

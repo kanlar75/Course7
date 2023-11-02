@@ -1,3 +1,6 @@
+import io
+import sys
+
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
@@ -25,7 +28,8 @@ class UserTestCase(APITestCase):
 
         data = {
             'email': 'user1@test.com',
-            'password': '12345'
+            'password': '12345',
+            'chat_id': '12345123'
         }
 
         response = self.client.post(
@@ -37,6 +41,25 @@ class UserTestCase(APITestCase):
             User.objects.all().count()
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_user_create_without_chat_id(self):
+        """ Тест создания пользователя без chat_id """
+
+        data = {
+            'email': 'user1@test.com',
+            'password': '12345'
+        }
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+
+        response = self.client.post(
+            reverse('users:user_create'),
+            data=data
+        )
+
+        sys.stdout = sys.__stdout__
+        self.assertEqual(capturedOutput.getvalue(), 'chat_id нужен для '
+                                                    'отправки уведомлений\n')
 
     def test_users_list(self):
         """ Тест получения списка пользователей """
@@ -83,4 +106,3 @@ class UserTestCase(APITestCase):
         )
         self.assertFalse(User.objects.filter(id=self.user.pk).exists())
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
