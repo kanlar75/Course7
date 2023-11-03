@@ -1,8 +1,3 @@
-from rest_framework.exceptions import ValidationError
-
-from users.models import User
-
-
 class ChatIdValidator:
     """ "Проверка ввода chat_id """
 
