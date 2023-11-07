@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from users.models import User, UserRoles
+from users.models import User
 
 
 class Command(BaseCommand):
@@ -13,7 +13,6 @@ class Command(BaseCommand):
             is_superuser=True,
             is_staff=True,
             is_active=True,
-            role=UserRoles.ADMIN
         )
         user.set_password('12345')
         user.save()
