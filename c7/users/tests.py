@@ -52,7 +52,7 @@ class UserTestCase(APITestCase):
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput
 
-        response = self.client.post(
+        self.client.post(
             reverse('users:user_create'),
             data=data
         )
