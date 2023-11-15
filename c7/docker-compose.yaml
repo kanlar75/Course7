@@ -22,7 +22,6 @@ services:
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: postgres
-
     ports:
       - '5433:5432'
     volumes:
@@ -54,22 +53,22 @@ services:
     tty: true
     env_file:
       - .env
-    command: python -m celery -A config worker -l INFO
+    command: celery -A config worker -l INFO
     depends_on:
         - redis
         - app
 
   celery_beat:
-    build: ..
+    build: .
     container_name: celery_beat
     tty: true
     env_file:
       - .env
-    command: python -m celery -A config beat -l info -S django
+    command: celery -A config beat --loglevel=info
     depends_on:
-      - celery
       - redis
       - app
+
 
 volumes:
   pg_data:

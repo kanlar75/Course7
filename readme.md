@@ -27,5 +27,11 @@ login: admin@test.com password: 12345
 Для запуска планировщика celery используйте команду: python.exe -m celery -A config beat --loglevel=info. Остановка планировщика: ctrl + break.
 Для запуска worker используйте команду: python.exe -m celery -A config worker -l INFO -P eventlet. Остановка worker: ctrl + break.
 
+Работа с DOCKER:
+Установите DOCKER и при необходимости плагин Docker Compose
+Создайте образ командой docker-compose build
+Запустите контейнеры командой docker-compose up
+Наличие файла .env с переменными окружения обязательно.
+
 
 Если у вас возникли вопросы или проблемы при использовании проекта, свяжитесь со мной по электронной почте kls75@yandex.ru или оставьте комментарий в Issues проекта на GitHub https://github.com/kanlar75/course7/issues.
