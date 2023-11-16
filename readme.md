@@ -30,6 +30,10 @@ login: admin@test.com password: 12345
 Работа с DOCKER:
 Установите DOCKER и при необходимости плагин Docker Compose
 Создайте образ командой docker-compose build
+Создайте БД командами:
+1. docker-compose exec db psql -U <имя пользователя>
+2. CREATE DATABASE <имя базы данных>;
+3. \q 
 Запустите контейнеры командой docker-compose up
 Наличие файла .env с переменными окружения обязательно.
 
