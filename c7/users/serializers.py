@@ -14,6 +14,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        instance = super().create(validated_data)
+        instance.set_password(password)
+
+        instance.save()
+        return instance
+
     class Meta:
         model = User
         fields = '__all__'

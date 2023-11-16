@@ -13,7 +13,6 @@ class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-
 class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -32,4 +31,3 @@ class UserUpdateAPIView(generics.UpdateAPIView):
 class UserDestroyAPIView(generics.DestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
